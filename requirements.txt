@@ -1,0 +1,11 @@
+# --- Core runtime ---
+pandas==2.2.3
+numpy==1.26.4
+python-pptx==1.0.2
+requests==2.32.3
+rapidfuzz==3.9.7
+openpyxl==3.1.5
+XlsxWriter==3.2.3
+
+# --- OptionalWindows helpers (keep if you actually use them) ---
+pywin32==308
