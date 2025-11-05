@@ -7,7 +7,6 @@ SPECIAL_LABEL_COLORS = {
     "no sabe": "BFBFBF",
     "ns/nc":   "BFBFBF",
     "no lo conoce o no tiene opinion": "A6A6A6",
-    "no la conoce o no tiene opinion": "A6A6A6",
     "no lo se aun": "A6A6A6",
     "si": "023D9B",
     "no": "E85833",

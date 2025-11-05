@@ -323,7 +323,7 @@ def split_rows(ubicacion: str, respuestas: list[str]) -> list[str]:
 
     ranges: list[str] = []
     for i, _ in enumerate(respuestas):
-        row = start_row + i
+        row = start_row + i + 1
         ranges.append(f"{sheet}!${start_col}${row}:${end_col}${row}")
     return ranges
 

@@ -410,9 +410,9 @@ def build_excel_range(start: int, end: int, data_start_col: int, df_width: int,
     last  data row = end-1  (0-based)  → Excel = end
     Columnas: de data_start_col al último índice de columna del DataFrame.
     """
-    first_row_1based = start + 3
+    first_row_1based = start + 2
     last_row_1based = end + 1
-    first_col_letter = get_column_letter(data_start_col + 2)
+    first_col_letter = get_column_letter(data_start_col + 1)
     last_col_letter = get_column_letter(df_width)
     return f"{sheet_name}!${first_col_letter}${first_row_1based}:${last_col_letter}${last_row_1based}"
 
