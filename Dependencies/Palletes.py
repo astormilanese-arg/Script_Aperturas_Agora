@@ -2,7 +2,10 @@ import hashlib, random, unicodedata
 
 # 1) Special legends (highest priority, independent of type)
 SPECIAL_LABEL_COLORS = {
+    ##REGULARES##
+
     "otro":    "A6A6A6",
+    "a otro":    "A6A6A6",
     "en blanco": "D9D9D9",
     "no sabe": "BFBFBF",
     "ns/nc":   "BFBFBF",
@@ -15,12 +18,39 @@ SPECIAL_LABEL_COLORS = {
     "es bastante probable que vaya a votar": "1D73FC",
     "es poco probable que vaya a votar": "FF008E",
     "no voy a votar": "C00000",
+
+    ##CERCANÍA##
+
     "libertario": "7030A0",
     "al pro": "FFC000",
     "al kirchnerismo": "0070C0",
     "al peronismo": "03715C",
     "a la izquierda": "FF008E",
-    "al radicalismo": "C00000"
+    "al radicalismo": "C00000",
+
+    ##REDES##
+
+    ##CANDIDATOS Y PARTIDOS##
+
+    ##PORTUGUÉS
+
+    "Muito boa": "04967A",
+    "Boa":"03BD85",
+    "Ruim":"EA3F28",
+    "Muito ruim":"C00000",
+    "Não sabe":"BFBFBF",
+
+    "Muito provavel":"023D9B",
+    "Provavelmente":"1D73FC",
+    "Puco provavelmente":"FF008E",
+    "Não votaria de jeito nenhum":"C00000",
+    "Não conhece o suficiente para opinar":"A6A6A6",
+
+    "Muita confiança":"023D9B",
+    "Bastante confiança":"1D73FC",
+    "Pouca confiança":"FF008E",
+    "Nenhuma confiança":"C00000",
+
 }
 
 # 2) Type-specific explicit color per value (by legend text)

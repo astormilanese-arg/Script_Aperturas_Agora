@@ -129,7 +129,7 @@ class _finish_linear_update:
 cdef void set_scoresC(float* scores,
         const uint64_t* keys, const float* values, const int32_t* lengths,
         int batch_size, int nr_out, const float* weights, int nr_weight,
-        bint v1_indexing) nogil:
+        bint v1_indexing) noexcept nogil:
     cdef uint32_t idx1, idx2
     cdef uint32_t hash1, hash2
     for length in lengths[:batch_size]:
@@ -160,7 +160,7 @@ cdef void set_scoresC(float* scores,
 cdef void set_gradientC(float* d_weights,
         const uint64_t* keys, const float* values, const int32_t* lengths,
         int batch_size, int nr_out, const float* d_scores, int nr_weight,
-        bint v1_indexing) nogil:
+        bint v1_indexing) noexcept nogil:
     cdef uint32_t idx1, idx2
     cdef uint32_t hash1, hash2
     for length in lengths[:batch_size]:
@@ -186,7 +186,7 @@ cdef void set_gradientC(float* d_weights,
         values += length
 
 
-cdef uint32_t MurmurHash3_x86_32_uint64(uint64_t key, uint32_t seed) nogil:
+cdef uint32_t MurmurHash3_x86_32_uint64(uint64_t key, uint32_t seed) noexcept nogil:
     cdef uint32_t h1 = seed
     cdef uint32_t c1 = 0xcc9e2d51u
     cdef uint32_t c2 = 0x1b873593u

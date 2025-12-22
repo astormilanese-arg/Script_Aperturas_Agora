@@ -1,4 +1,4 @@
-#!C:\Users\astor\Desktop\agora\Script aperturas\.venv\Scripts\python.exe
+#!C:\Users\astor\Desktop\agora\Script aperturas - V2.0\.venv\Scripts\python.exe
 
 ##############################################################################
 #

@@ -5,11 +5,11 @@
 
 import re
 from unidecode import unidecode
-
+from .config import Titulos
 # Titulos.py
 import pandas as pd
 
-XLSX_PATH = r"C:\Users\astor\Desktop\agora\Clientes\Olava post electoral noviembre\Apps\Titulos.xlsx"  # ← ajustá si hace falta
+XLSX_PATH = Titulos
 
 def determinar_titulo(nombre, tipo=None):
     """

@@ -656,17 +656,12 @@ def test_spacy_blank():
 @pytest.mark.parametrize(
     "lang,target",
     [
-        ("en", "en"),
         ("fra", "fr"),
         ("fre", "fr"),
         ("iw", "he"),
         ("mo", "ro"),
+        ("scc", "sr"),
         ("mul", "xx"),
-        ("no", "nb"),
-        ("pt-BR", "pt"),
-        ("xx", "xx"),
-        ("zh-Hans", "zh"),
-        ("zh-Hant", None),
         ("zxx", None),
     ],
 )
@@ -686,11 +681,9 @@ def test_language_matching(lang, target):
         ("fre", "fr"),
         ("iw", "he"),
         ("mo", "ro"),
+        ("scc", "sr"),
         ("mul", "xx"),
-        ("no", "nb"),
-        ("pt-BR", "pt"),
         ("xx", "xx"),
-        ("zh-Hans", "zh"),
     ],
 )
 def test_blank_languages(lang, target):
@@ -740,7 +733,7 @@ def test_pass_doc_to_pipeline(nlp, n_process):
     assert len(doc.cats) > 0
     if isinstance(get_current_ops(), NumpyOps) or n_process < 2:
         # Catch warnings to ensure that all worker processes exited
-        # succesfully.
+        # successfully.
         with warnings.catch_warnings():
             warnings.simplefilter("error")
             docs = nlp.pipe(docs, n_process=n_process)

@@ -3,6 +3,8 @@
 # ──────────────────────────────────────────────────────────────────────────────
 
 import sys
+print(">>> Running with Python:", sys.executable)
+
 import time
 import builtins
 import xml.etree.ElementTree as ET

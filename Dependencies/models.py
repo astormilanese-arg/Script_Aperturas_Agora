@@ -52,6 +52,7 @@ ANSWER_SETS = {
     "CoC":{"continuar como hasta ahora", "continuar con algunos cambios", "cambiar manteniendo solo algunas cosas", "cambiar totalmente", "no sabe"},
     "grado de informacion": {'muy informado', 'bastante informado', 'poco informado', 'nada informado', 'no sabe'},
     "nivel de gravedad": {'muy grave', 'bastante grave', 'poco grave', 'nada grave', 'no sabe'},
+    "cantidad": {'Mucho', 'Bastante', 'Poco', 'Nada', 'No sabe'},
     "nivel de responsabilidad": {'muy responsable', 'bastante responsable', 'poco responsable', 'nada responsable', 'no sabe'},
     "nivel de corrupccion": {'muy corrupto', 'bastante corrupto', 'poco corrupto', 'nada corrupto', 'no sabe'}
 }
@@ -78,6 +79,7 @@ COLOR_MAP = {
 
     # ordinales de 5 puntos (acuerdo, gravedad, responsabilidad, corrupción, coc, info…)
     "ordinal_5": 3,
+    "cantidad": 3,
 
     # binarias / afirmativas
     "afirmativa": 6,

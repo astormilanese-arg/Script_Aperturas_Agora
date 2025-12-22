@@ -36,12 +36,12 @@ ctypedef float weight_t
 
 
 cdef extern from "math.h":
-    float logf(float x) nogil
-    float sqrtf(float x) nogil
-    float expf(float x) nogil
-    float tanhf(float x) nogil
-    float sinf(float x) nogil
-    float cosf(float x) nogil
+    float logf(float x) noexcept nogil
+    float sqrtf(float x) noexcept nogil
+    float expf(float x) noexcept nogil
+    float tanhf(float x) noexcept nogil
+    float sinf(float x) noexcept nogil
+    float cosf(float x) noexcept nogil
 
 
 @registry.ops("NumpyOps")
@@ -557,7 +557,7 @@ def add_gradient_noise(float[::1] gradient, weight_t noise_level,
                        dtype='float32')
 
 
-cdef void cpu_position_encode(float* output, float period, int N, int D) nogil:
+cdef void cpu_position_encode(float* output, float period, int N, int D) noexcept nogil:
     cdef float pos, d
     cdef int j
     cdef float dimensions = D
@@ -577,7 +577,7 @@ cdef void cpu_position_encode(float* output, float period, int N, int D) nogil:
 
 cdef void cpu_scatter_add(float* dest,
         const int* indices, const float* src,
-        int nr_id, int nr_col) nogil:
+        int nr_id, int nr_col) noexcept nogil:
     cdef int i
     for i in range(nr_id):
         id_ = indices[i]
@@ -589,7 +589,7 @@ cdef void cpu_scatter_add(float* dest,
 @cython.cdivision(True)
 cdef void _adam_momentum(weight_t* gradient, weight_t* mom1, weight_t* mom2,
         int nr_weight, weight_t beta1, weight_t beta2, weight_t eps,
-        weight_t learn_rate) nogil:
+        weight_t learn_rate) noexcept nogil:
     # Calculate Adam on CPU, fused.
     # Assumes the learning rate adjustment is calculated by the caller;
     # a_t = learn_rate * sqrt(1-beta2**timestep) / (1-beta1**timestep)
@@ -626,7 +626,7 @@ cdef void _adam_momentum(weight_t* gradient, weight_t* mom1, weight_t* mom2,
 
 @cython.cdivision(True)
 cdef void cpu_update_averages(weight_t* ema,
-        const weight_t* weights, int nr_weight, weight_t t, weight_t max_decay) nogil:
+        const weight_t* weights, int nr_weight, weight_t t, weight_t max_decay) noexcept nogil:
     cdef weight_t decay = (1.0 + t) / (10.0 + t)
     if decay > max_decay:
         decay = max_decay
@@ -1014,19 +1014,19 @@ def _untranspose_unsplit_weights(params):
     return numpy.concatenate((Wx.ravel(), bias, Wh.ravel(), zeros))
 
 
-cdef inline float sigmoid(float X) nogil:
+cdef inline float sigmoid(float X) noexcept nogil:
     return 1./(1. + expf(-X))
 
 
-cdef inline float dsigmoid(float y) nogil:
+cdef inline float dsigmoid(float y) noexcept nogil:
     return y*(1-y)
 
 
-cdef inline float dtanh(float y) nogil:
+cdef inline float dtanh(float y) noexcept nogil:
     return 1-y**2
 
 
-cdef void cpu_lstm_activate_fwd(float* gates, int B, int N) nogil:
+cdef void cpu_lstm_activate_fwd(float* gates, int B, int N) noexcept nogil:
     """Apply sigmoid activation in-place to columns 0, 1, 2 and tanh to column 3.
     The data is assumed to have the gates in the last dimension.
     """
@@ -1073,7 +1073,7 @@ cdef void cpu_lstm_activate_fwd(float* gates, int B, int N) nogil:
 
 
 cdef void cpu_lstm_gates_fwd(float* hiddens, float* cells,
-        const float* gates, const float* prevcells, int B, int N) nogil:
+        const float* gates, const float* prevcells, int B, int N) noexcept nogil:
     cdef float hf, hi, ho, hc, ct2, ct3
     cdef int i, b, g, c, h
     g = 0
@@ -1102,7 +1102,7 @@ cdef void cpu_lstm_gates_bwd(
     const float* Ct3,
     const float* Ct2,
     int N
-) nogil:
+) noexcept nogil:
     cdef int i
     cdef float ct2, ct3, hf, hi, ho, hc, tanh_ct3
     cdef float d_ho, d_tanh_ct3, dct3, d_hi, d_hc, d_hf
@@ -1138,7 +1138,7 @@ cdef void MurmurHash3_x86_128_uint64(
     const uint64_t val,
     const uint32_t seed,
     uint32_t *out
-) nogil:
+) noexcept nogil:
     cdef uint64_t h1, h2
 
     h1 = val

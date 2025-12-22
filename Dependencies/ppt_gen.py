@@ -34,7 +34,9 @@ import os
 
 def revincular_powerpoint (ppt_template_path, excel_save_location):
     
-    # Open PowerPoint
+    # Normalize paths for Windows COM
+    ppt_template_path = os.path.abspath(ppt_template_path)
+    excel_save_location = os.path.abspath(excel_save_location)
     ppt_app = win32.Dispatch("PowerPoint.Application")
     ppt_app.Visible = True
     presentation = ppt_app.Presentations.Open(ppt_template_path)

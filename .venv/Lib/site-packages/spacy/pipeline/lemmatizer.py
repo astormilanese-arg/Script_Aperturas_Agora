@@ -210,7 +210,7 @@ class Lemmatizer(Pipe):
         rules = rules_table.get(univ_pos, {})
         orig = string
         string = string.lower()
-        forms = []
+        forms = []  # type: ignore
         oov_forms = []
         for old, new in rules:
             if string.endswith(old):
@@ -218,7 +218,10 @@ class Lemmatizer(Pipe):
                 if not form:
                     pass
                 elif form in index or not form.isalpha():
-                    forms.append(form)
+                    if form in index:
+                        forms.insert(0, form)
+                    else:
+                        forms.append(form)
                 else:
                     oov_forms.append(form)
         # Remove duplicates but preserve the ordering of applied "rules"

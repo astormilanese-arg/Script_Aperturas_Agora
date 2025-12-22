@@ -1,11 +1,24 @@
-# --- Core runtime ---
-pandas==2.2.3
-numpy==1.26.4
-python-pptx==1.0.2
-requests==2.32.3
-rapidfuzz==3.9.7
-openpyxl==3.1.5
-XlsxWriter==3.2.3
+# GUI
+customtkinter
 
-# --- OptionalWindows helpers (keep if you actually use them) ---
-pywin32==308
+# Data manipulation and storage
+pandas
+openpyxl
+
+# Excel/PowerPoint/Windows Automation (COM)
+pywin32
+python-pptx
+
+# GUI Automation (Mouse/Keyboard control)
+pywinauto
+PyAutoGUI
+PyGetWindow
+
+# Text Processing
+ftfy
+unidecode
+spacy
+lxml
+
+# System / Process Management
+psutil

@@ -29,7 +29,7 @@ cdef class Matrix:
 
 cdef class Vec:
     @staticmethod    
-    cdef inline int arg_max(const weight_t* scores, const int n_classes) nogil:
+    cdef inline int arg_max(const weight_t* scores, const int n_classes) noexcept nogil:
         if n_classes == 2:
             return 0 if scores[0] > scores[1] else 1
         cdef int i
@@ -42,7 +42,7 @@ cdef class Vec:
         return best
 
     @staticmethod
-    cdef inline weight_t max(const weight_t* x, int32_t nr) nogil:
+    cdef inline weight_t max(const weight_t* x, int32_t nr) noexcept nogil:
         if nr == 0:
             return 0
         cdef int i
@@ -53,7 +53,7 @@ cdef class Vec:
         return mode
 
     @staticmethod
-    cdef inline weight_t sum(const weight_t* vec, int32_t nr) nogil:
+    cdef inline weight_t sum(const weight_t* vec, int32_t nr) noexcept nogil:
         cdef int i
         cdef weight_t total = 0
         for i in range(nr):
@@ -61,7 +61,7 @@ cdef class Vec:
         return total
 
     @staticmethod
-    cdef inline weight_t norm(const weight_t* vec, int32_t nr) nogil:
+    cdef inline weight_t norm(const weight_t* vec, int32_t nr) noexcept nogil:
         cdef weight_t total = 0
         for i in range(nr):
             total += vec[i] ** 2
@@ -69,24 +69,24 @@ cdef class Vec:
 
     @staticmethod
     cdef inline void add(weight_t* output, const weight_t* x,
-            weight_t inc, int32_t nr) nogil:
+            weight_t inc, int32_t nr) noexcept nogil:
         memcpy(output, x, sizeof(output[0]) * nr)
         Vec.add_i(output, inc, nr)
 
     @staticmethod
-    cdef inline void add_i(weight_t* vec, weight_t inc, int32_t nr) nogil:
+    cdef inline void add_i(weight_t* vec, weight_t inc, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             vec[i] += inc
 
     @staticmethod
     cdef inline void mul(weight_t* output, const weight_t* vec, weight_t scal,
-            int32_t nr) nogil:
+            int32_t nr) noexcept nogil:
         memcpy(output, vec, sizeof(output[0]) * nr)
         Vec.mul_i(output, scal, nr)
 
     @staticmethod
-    cdef inline void mul_i(weight_t* vec, weight_t scal, int32_t nr) nogil:
+    cdef inline void mul_i(weight_t* vec, weight_t scal, int32_t nr) noexcept nogil:
         cdef int i
         IF USE_BLAS:
             blis.cy.scalv(BLIS_NO_CONJUGATE, nr, scal, vec, 1)
@@ -96,12 +96,12 @@ cdef class Vec:
 
     @staticmethod
     cdef inline void pow(weight_t* output, const weight_t* vec, weight_t scal,
-            int32_t nr) nogil:
+            int32_t nr) noexcept nogil:
         memcpy(output, vec, sizeof(output[0]) * nr)
         Vec.pow_i(output, scal, nr)
 
     @staticmethod
-    cdef inline void pow_i(weight_t* vec, const weight_t scal, int32_t nr) nogil:
+    cdef inline void pow_i(weight_t* vec, const weight_t scal, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             vec[i] **= scal
@@ -109,43 +109,43 @@ cdef class Vec:
     @staticmethod
     @cython.cdivision(True)
     cdef inline void div(weight_t* output, const weight_t* vec, weight_t scal,
-            int32_t nr) nogil:
+            int32_t nr) noexcept nogil:
         memcpy(output, vec, sizeof(output[0]) * nr)
         Vec.div_i(output, scal, nr)
 
     @staticmethod
     @cython.cdivision(True)
-    cdef inline void div_i(weight_t* vec, const weight_t scal, int32_t nr) nogil:
+    cdef inline void div_i(weight_t* vec, const weight_t scal, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             vec[i] /= scal
 
     @staticmethod
-    cdef inline void exp(weight_t* output, const weight_t* vec, int32_t nr) nogil:
+    cdef inline void exp(weight_t* output, const weight_t* vec, int32_t nr) noexcept nogil:
         memcpy(output, vec, sizeof(output[0]) * nr)
         Vec.exp_i(output, nr)
 
     @staticmethod
-    cdef inline void exp_i(weight_t* vec, int32_t nr) nogil:
+    cdef inline void exp_i(weight_t* vec, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             vec[i] = exp(vec[i])
 
     @staticmethod
-    cdef inline void reciprocal_i(weight_t* vec, int32_t nr) nogil:
+    cdef inline void reciprocal_i(weight_t* vec, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             vec[i] = 1.0 / vec[i]
 
     @staticmethod
-    cdef inline weight_t mean(const weight_t* X, int32_t nr_dim) nogil:
+    cdef inline weight_t mean(const weight_t* X, int32_t nr_dim) noexcept nogil:
         cdef weight_t mean = 0.
         for x in X[:nr_dim]:
             mean += x
         return mean / nr_dim
 
     @staticmethod
-    cdef inline weight_t variance(const weight_t* X, int32_t nr_dim) nogil:
+    cdef inline weight_t variance(const weight_t* X, int32_t nr_dim) noexcept nogil:
         # See https://www.johndcook.com/blog/standard_deviation/
         cdef double m = X[0]
         cdef double v = 0.
@@ -162,7 +162,7 @@ cdef class VecVec:
                          const weight_t* x, 
                          const weight_t* y,
                          weight_t scale,
-                         int32_t nr) nogil:
+                         int32_t nr) noexcept nogil:
         memcpy(output, x, sizeof(output[0]) * nr)
         VecVec.add_i(output, y, scale, nr)
    
@@ -170,7 +170,7 @@ cdef class VecVec:
     cdef inline void add_i(weight_t* x, 
                            const weight_t* y,
                            weight_t scale,
-                           int32_t nr) nogil:
+                           int32_t nr) noexcept nogil:
         cdef int i
         IF USE_BLAS:
             blis.cy.axpyv(BLIS_NO_CONJUGATE, nr, scale, y, 1, x, 1)
@@ -182,7 +182,7 @@ cdef class VecVec:
     cdef inline void batch_add_i(weight_t* x, 
                            const weight_t* y,
                            weight_t scale,
-                           int32_t nr, int32_t nr_batch) nogil:
+                           int32_t nr, int32_t nr_batch) noexcept nogil:
         # For fixed x, matrix of y
         cdef int i, _
         for _ in range(nr_batch):
@@ -192,34 +192,34 @@ cdef class VecVec:
  
     @staticmethod
     cdef inline void add_pow(weight_t* output,
-            const weight_t* x, const weight_t* y, weight_t power, int32_t nr) nogil:
+            const weight_t* x, const weight_t* y, weight_t power, int32_t nr) noexcept nogil:
         memcpy(output, x, sizeof(output[0]) * nr)
         VecVec.add_pow_i(output, y, power, nr)
 
    
     @staticmethod
     cdef inline void add_pow_i(weight_t* x, 
-            const weight_t* y, weight_t power, int32_t nr) nogil:
+            const weight_t* y, weight_t power, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             x[i] += y[i] ** power
  
     @staticmethod
     cdef inline void mul(weight_t* output,
-            const weight_t* x, const weight_t* y, int32_t nr) nogil:
+            const weight_t* x, const weight_t* y, int32_t nr) noexcept nogil:
         memcpy(output, x, sizeof(output[0]) * nr)
         VecVec.mul_i(output, y, nr)
    
     @staticmethod
     cdef inline void mul_i(weight_t* x, 
-            const weight_t* y, int32_t nr) nogil:
+            const weight_t* y, int32_t nr) noexcept nogil:
         cdef int i
         for i in range(nr):
             x[i] *= y[i]
 
     @staticmethod
     cdef inline weight_t dot(
-            const weight_t* x, const weight_t* y, int32_t nr) nogil:
+            const weight_t* x, const weight_t* y, int32_t nr) noexcept nogil:
         cdef int i
         cdef weight_t total = 0
         for i in range(nr):
@@ -228,7 +228,7 @@ cdef class VecVec:
  
     @staticmethod
     cdef inline int arg_max_if_true(
-            const weight_t* scores, const int* is_valid, const int n_classes) nogil:
+            const weight_t* scores, const int* is_valid, const int n_classes) noexcept nogil:
         cdef int i
         cdef int best = -1
         for i in range(n_classes):
@@ -238,7 +238,7 @@ cdef class VecVec:
 
     @staticmethod
     cdef inline int arg_max_if_zero(
-            const weight_t* scores, const weight_t* costs, const int n_classes) nogil:
+            const weight_t* scores, const weight_t* costs, const int n_classes) noexcept nogil:
         cdef int i
         cdef int best = -1
         for i in range(n_classes):
@@ -250,7 +250,7 @@ cdef class VecVec:
 cdef class Mat:
     @staticmethod
     cdef inline void mean_row(weight_t* Ex,
-            const weight_t* mat, int32_t nr_row, int32_t nr_col) nogil:
+            const weight_t* mat, int32_t nr_row, int32_t nr_col) noexcept nogil:
         memset(Ex, 0, sizeof(Ex[0]) * nr_col)
         for i in range(nr_row):
             VecVec.add_i(Ex, &mat[i * nr_col], 1.0, nr_col)
@@ -259,7 +259,7 @@ cdef class Mat:
     @staticmethod
     cdef inline void var_row(weight_t* Vx,
             const weight_t* mat, const weight_t* Ex,
-            int32_t nr_row, int32_t nr_col, weight_t eps) nogil:
+            int32_t nr_row, int32_t nr_col, weight_t eps) noexcept nogil:
         # From https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
         if nr_row == 0 or nr_col == 0:
             return
